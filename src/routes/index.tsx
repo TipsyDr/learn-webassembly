@@ -13,6 +13,7 @@ const routeModuleList: MenuList = [];
 Object.keys(modules).forEach(key => {
   const mod = modules[key].default || {};
   const modList = Array.isArray(mod) ? [...mod] : [mod];
+
   routeModuleList.push(...modList);
 });
 
@@ -38,10 +39,10 @@ export const routeList: MenuList = [
 
 const routers = routeList.filter(r => r.path === '/')[0];
 
-const RenderRouter: FC = () => {
+export const RenderRouter: FC = () => {
   const element = useRoutes(routeList);
+
   return element;
 };
 
 export const baseRoute: MenuList = routers.children!;
-export default RenderRouter;

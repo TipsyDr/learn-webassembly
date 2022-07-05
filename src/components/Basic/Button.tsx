@@ -4,27 +4,30 @@ import { ButtonProps, Popconfirm, PopconfirmProps } from 'antd';
 import CustomIcon from '../Icon';
 import { IconTypes } from '@/types';
 
-interface ConfirmProps {
+interface ConfirmProps extends PopconfirmProps{
   useConfirm: boolean;
-  confirmProps?: PopconfirmProps;
 }
 
 export interface BtnProps extends ButtonProps {
   text?: string;
-  icon?: IconTypes;
+  cicon?: IconTypes;
+  icolor?: string;
   confirm?: ConfirmProps;
 }
 
 const BasicButton: FC<BtnProps> = props => {
-  const { text, icon, confirm } = props;
+  const { text, cicon, confirm, icolor, disabled } = props;
   return confirm?.useConfirm ? (
-    <Popconfirm title="确认？" {...confirm}>
-      <FormButton {...props} icon={icon ? <CustomIcon type={icon} /> : ''}>
+    <Popconfirm {...confirm} disabled={disabled}>
+      <FormButton {...props} icon={cicon ? <CustomIcon type={cicon} /> : ''}>
         {text}
       </FormButton>
     </Popconfirm>
   ) : (
-    <FormButton {...props} icon={icon ? <CustomIcon type={icon} /> : ''}>
+    <FormButton
+      icon={cicon ? <CustomIcon type={cicon} color={icolor} /> : null}
+      {...props}
+    >
       {text}
     </FormButton>
   );

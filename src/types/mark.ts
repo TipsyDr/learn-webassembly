@@ -1,9 +1,14 @@
 import { TagType } from './tags';
 
-export interface ResultsType {
+export interface MarkType {
   id?: number;
   projectId?: number;
+  resultId?: string;
+  jobStatus?: string;
   annotationId?: string;
+  resultSetId?: string;
+  chooseFrameId?: string;
+  totalFrames?: string;
   projectName?: string;
   sceneFeaturesList?: TagType[];
   sceneFeatures?: TagType[];
@@ -12,6 +17,9 @@ export interface ResultsType {
   finishedTime?: string;
   ossAddr?: string;
   source?: string;
+  tagPlatformCode?: string;
+  effectiveDataQuantity?: string;
+  annotationStatus?: string;
 }
 
 export interface Version {
@@ -33,9 +41,16 @@ export interface CreateVersionResult extends API.ApiResponse {
 export interface MarkListParams {
   versionName?: string;
   id?: string;
+  chooseFrameId?: string;
+  annotationType?: string;
+  resultDataName?: string;
+  start?: string;
+  end?: string;
 }
 
 export interface CreateMarkTask {
+  annotationId?: string[];
+  tagPlatformCode?: string;
   ids?: any[];
   annotationType?: number;
   annotationVersionId?: number;
@@ -47,8 +62,31 @@ export interface CreateMarkTask {
   bagsVos?: string;
   bagSetId?: string;
   ossUrl?: string;
+  turnMarkInfo?: MarkType;
 }
 
 export interface CreateMarkTaskResult extends API.ApiResponse {
   data: string;
+}
+
+
+export interface ResultMarkInfo {
+  annotationId: string;
+  annotationName: string;
+  annotationPlatform: string;
+  annotationType: string;
+  annotationVersion: string;
+  completionTime: string;
+  createTime: string;
+  dimensionFrame: string;
+  dimensionQuantity: string;
+  id: string;
+  jobStatus: string;
+  ossAddress: string;
+  resultId: string;
+  totalFrame: string;
+}
+
+export interface GetResultMarkListResult extends API.ApiResponse {
+  data: ResultMarkInfo;
 }

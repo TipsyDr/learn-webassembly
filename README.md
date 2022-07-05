@@ -1,4 +1,4 @@
-# 数据管理平台
+# 占位尝试 Webassembly
 
 ## What's inside?
 
@@ -65,12 +65,3 @@ yarn serve
   - `ci` 持续集成
   - `types` 类型定义文件更改
   - `wip` 开发中
-
-## 开发流程规范 [react](http://192.168.3.220:8090/pages/viewpage.action?pageId=11469127)
-
-### 补充
-
-- 每次提交尽量一个 commit
-- 组件开发后在 component|styled|common|types 目录中统一 export 出去
-- basic 路由添加可以在 routes 中的 modules 中下新建一个文件之后直接配置，不用再在 index 中额外的引入
-- icon 用 svg 图片维护，svg 图片可以用代码格式化方便后期修改，icon 统一放在 assets 的 Icons 文件中，可以通过 CustomIcon 组件直接使用，不用再引入图片，用法： `<CustomIcon type={svg文件名不要加后缀} /> `

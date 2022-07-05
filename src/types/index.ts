@@ -1,4 +1,11 @@
 export type {
+  itemChildOptions,
+  FormItemOptions,
+  FormOptions,
+  FormLayoutProps,
+  FormItemConf,
+} from '@/components/FormLayout/type';
+export type {
   BagSetInfo,
   BagSetInfoListResult,
   CaseInfo,
@@ -15,16 +22,17 @@ export type {
   LogoutParams,
   UserInfo,
   UserResult,
-  PermissionVoList,
+  PermissionVo,
 } from './user';
 export type {
-  ResultsType,
+  MarkType,
   Version,
   CreateVersion,
   CreateVersionResult,
   CreateMarkTask,
   CreateMarkTaskResult,
   MarkListParams,
+  GetResultMarkListResult,
 } from './mark';
 export type { MenuItem, MenuChild, MenuList } from './menu';
 export type { WrapperRouteProps } from './router';
@@ -42,3 +50,20 @@ export type {
   MapPoint,
 } from './common';
 export type { TruckInfo, TruckData, TrunkResult, TruckParams } from './truck';
+export type {
+  GetChooseFrameBasicDataParams,
+  FrameBasicData,
+  ChooseFrameBasicDataResult,
+  GetChooseFrameListParams,
+  ChooseFrameListResult,
+  SaveFrameStatusParams,
+  SaveFrameStatusResult,
+  CountFrameStatusParams,
+  CountFrameStatusResult,
+  FrameListItem,
+  FrameListResult,
+  BatchListItem,
+  ImageInfo,
+  GetAnnotationResultListParams,
+  GetAnnotationResultListResult,
+} from './chooseFrame';

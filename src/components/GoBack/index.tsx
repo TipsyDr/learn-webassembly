@@ -6,19 +6,20 @@ interface Props {
   title?: string;
   titleStyle?: {};
   style?: {};
+  url?: string;
 }
 
 const GoBack: FC<Props> = props => {
-  const { title, style, titleStyle } = props;
+  const { title, style, titleStyle, url } = props;
   const navigate = useNavigate();
   const handleGoBack = function () {
-    navigate(-1);
+    url ? (window.location.href = url) : navigate(-1);
   };
 
   return (
     <span
       style={{
-        padding: '10px 20px 20px 0',
+        paddingRight: '20px',
         cursor: 'pointer',
         display: 'inline-block',
         ...style,

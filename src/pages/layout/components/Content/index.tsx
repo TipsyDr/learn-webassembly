@@ -1,6 +1,6 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState, useRef } from 'react';
 import { Outlet } from 'react-router';
-import { StyleContent } from '@/styled/Layout';
+import { StyleContent, Watermark, ContentWrapper } from '@/styled';
 import { useLoginContext } from '@/context';
 
 const RightContent: FC = () => {
@@ -8,13 +8,13 @@ const RightContent: FC = () => {
   const [image, setImage] = useState('');
   const drawCanvas = () => {
     const canvasContext = document.createElement('canvas');
-    canvasContext.width = 140;
-    canvasContext.height = 80;
+    canvasContext.width = 240;
+    canvasContext.height = 120;
     var canvasContexts = canvasContext.getContext('2d')!;
     canvasContexts.rotate((-20 * Math.PI) / 180);
-    canvasContexts.font = '18px Vedana';
+    canvasContexts.font = '14px Vedana';
     canvasContexts.fillStyle = 'rgba(200, 200, 200, 0.30)';
-    canvasContexts.textAlign = 'left';
+    canvasContexts.textAlign = 'center';
     canvasContexts.textBaseline = 'middle';
     canvasContexts.fillText(userInfo?.userName || '数据平台', 50, 60); //绘制水印文案
     const img = canvasContext.toDataURL('image/png');
@@ -26,11 +26,14 @@ const RightContent: FC = () => {
   }, [image]);
 
   return (
-    <StyleContent>
-      <div style={{ background: `url(${image}) #fff` }}>
-        <Outlet />
-      </div>
-    </StyleContent>
+    <>
+      <StyleContent className='layoutContent'>
+        <Watermark style={{ background: `url(${image}) left top repeat` }} />
+        <ContentWrapper>
+          <Outlet />
+        </ContentWrapper>
+      </StyleContent>
+    </>
   );
 };
 

@@ -32,6 +32,9 @@ export interface CaseInfo {
   fileType?: string;
   fileId?: string;
   priority?: string;
+  ossAdr?: string;
+  startTime?: string;
+  endTime?: string;
   taskType?: string[];
   sceneFeatures?: TagType[];
   sceneFeaturesList?: TagType[];
@@ -61,15 +64,21 @@ export interface BagInfo {
 }
 
 export interface BagList {
+  content?: BagList[];
   bagSetId?: string;
   ossAddr?: string;
   files?: BagInfo[];
+  pageNumber?: number;
+  pageSize?: number;
+  totalElements?: number;
 }
 
 export interface BagListParams {
   bagSetId?: string;
   fileType?: number;
   taskType?: number;
+  pageNumber: number;
+  pageSize: number;
 }
 
 export interface BagListResult extends API.ApiResponse {

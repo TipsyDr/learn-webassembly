@@ -25,11 +25,11 @@ import type {
   TimePickerProps,
   CascaderProps,
 } from 'antd/lib';
-import type { FormLayoutProps, btnProps } from './type';
+import type { FormLayoutProps, BtnProps } from './type';
 import { useEffect } from 'react';
 const DatePickerNode: any = DatePicker;
 
-const formItemDefaultOptions: unknown = {
+const formItemDefaultOptions: any = {
   size: 'middle',
 };
 
@@ -67,7 +67,7 @@ const formItemEnum: any = {
 };
 
 function FormLayout(props: FormLayoutProps) {
-  const { formItems, formOptions, hasCard } = props;
+  const { formItems, formOptions, hasCard, onSubmit } = props;
   if (!formItems) return null;
 
   const FormItemGroup = formItems.map(item => {
@@ -83,7 +83,7 @@ function FormLayout(props: FormLayoutProps) {
   });
 
   const [form] = Form.useForm();
-  const onFinish = (values: any) => {
+  const onFinish = onSubmit ? onSubmit : (values: any) => {
     console.log('Success:', values);
   };
   const onFinishFailed = (errorInfo: any) => {
@@ -95,7 +95,7 @@ function FormLayout(props: FormLayoutProps) {
   };
 
   const { btnoptions, btnstyle } = formOptions!;
-  const btnTemp = btnoptions?.map((btn: btnProps, index: number) => {
+  const btnTemp = btnoptions?.map((btn: BtnProps, index: number) => {
     let dom = <BasicButton />;
     switch (btn.kind) {
       case 'submit':
@@ -176,3 +176,5 @@ function FormLayout(props: FormLayoutProps) {
 }
 
 export default FormLayout;
+
+export { FormLayoutProps };

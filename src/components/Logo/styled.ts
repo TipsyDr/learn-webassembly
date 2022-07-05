@@ -49,7 +49,7 @@ export const Bubble = styled.div`
 `;
 
 export const Text = styled.div`
-  width: 100px;
+  min-width: 100px;
   height: 50px;
   display: flex;
   flex-direction: column;

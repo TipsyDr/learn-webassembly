@@ -1,27 +1,29 @@
 import { FC } from 'react';
-import { Tag } from 'antd';
-import CustomIcon from '../Icon';
+import { BasicButton } from '@/components';
 import { IconTypes } from '@/types';
 
 interface Props {
   title?: string;
   icon?: IconTypes;
+  btnProps?: {};
   style?: {};
   onClick?: () => void;
 }
 
 const EditBtn: FC<Props> = props => {
-  const { title, icon, style, onClick } = props;
+  const { title, icon, style, onClick, btnProps } = props;
 
   return (
-    <Tag
-      style={{ cursor: 'pointer', ...style }}
-      className="site-tag-plus"
-      color="#0A4A9F"
+    <BasicButton
+      type="primary"
+      style={style}
       onClick={onClick}
-    >
-      <CustomIcon type={icon || 'edit'} color="#fff" /> {title || '编辑'}
-    </Tag>
+      size='small'
+      cicon={icon || 'edit'}
+      icolor="#fff"
+      text={title || '编辑'}
+      {...btnProps}
+    />
   );
 };
 

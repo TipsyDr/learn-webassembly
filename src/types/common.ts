@@ -23,13 +23,21 @@ export type IconTypes =
   | 'goback'
   | 'error'
   | 'startPoint'
-  | 'endPoint';
+  | 'endPoint'
+  | 'speed'
+  | 'x'
+  | 'pause'
+  | 'fb'
+  | 'ff'
+  | 'forward'
+  | 'retreat'
+  | 'play';
 
 export interface MapProps {
   key?: string;
   height?: string;
   width?: string;
-  mapData: LbsParams;
+  mapData: MapData;
 }
 
 export interface MapPoint {
@@ -46,7 +54,7 @@ interface TripStatistics {
 
 export type MapData = {
   caseList?: MapPoint[];
-  path?: MapPoint[];
+  path?: MapPoint[][];
   tripStatistics?: TripStatistics;
 };
 

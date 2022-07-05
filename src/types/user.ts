@@ -1,5 +1,3 @@
-import { MenuChild } from '@/types/menu';
-
 /** user's role */
 export type Role = 'guest' | 'admin';
 
@@ -24,9 +22,15 @@ export interface LogoutParams {
   token: string;
 }
 
-export interface PermissionVoList {
+export interface PermissionVo {
   editBag: boolean;
   editCase: boolean;
+  convertLable: boolean;
+  createAccount: boolean;
+  createCase: boolean;
+  editCar: boolean;
+  query: boolean;
+  search: boolean;
 }
 
 export interface UserInfo {
@@ -34,7 +38,7 @@ export interface UserInfo {
   userName?: string;
   roleId?: number;
   roleName?: string;
-  permissionVoList?: PermissionVoList;
+  permissionVo?: PermissionVo;
 }
 
 export interface UserResult extends API.ApiResponse {

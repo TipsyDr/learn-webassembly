@@ -21,22 +21,26 @@ export interface itemChildOptions {
   value?: unknown;
   options?: { label: string; value: unknown }[];
   format?: string;
+  style?: {};
+  showTime?: {};
   onChange?: (e: any) => void;
   onPressEnter?: (e: any) => void;
   api?: (e: any) => any;
 }
 
-interface FormItemOptions extends FormItemProps {
+export interface FormItemOptions extends FormItemProps {
   name: string;
   label?: string;
 }
 
-export interface ItemProps {
+interface ItemProps {
   type: string;
   itemChildOptions?: itemChildOptions;
   formItemOptions?: FormItemOptions;
   element?: React.ReactElement;
 }
+
+export type FormItemConf = ItemProps;
 
 export interface Confirm {
   useConfirm: boolean;
@@ -44,15 +48,15 @@ export interface Confirm {
   onConfirm: () => void;
 }
 
-export interface btnProps extends ButtonProps {
+export interface BtnProps extends ButtonProps {
   text?: string;
   kind?: string;
-  icon?: IconTypes;
+  cicon?: IconTypes;
   confirm?: Confirm;
 }
 
 export interface FormOptions extends FormProps {
-  btnoptions?: btnProps[];
+  btnoptions?: BtnProps[];
   btnstyle?: any;
 }
 
@@ -61,4 +65,5 @@ export interface FormLayoutProps {
   formItems: ItemProps[];
   formOptions?: FormOptions;
   getForm?: (value: ReactNode) => void;
+  onSubmit?: (val: any) => void;
 }

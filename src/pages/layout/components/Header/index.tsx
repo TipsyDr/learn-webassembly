@@ -1,10 +1,12 @@
 import { FC, useCallback, useState } from 'react';
-import { Dropdown, Avatar, Menu } from 'antd';
+import { Dropdown, Avatar, Menu, MenuProps } from 'antd';
 import { LogoutOutlined } from '@ant-design/icons';
 import { CustomIcon, Loading } from '@/components';
 import { StyleHeader, User } from '@/styled';
 import { notice, Logo } from '@/components';
 import { useLoginContext } from '@/context';
+
+type MenuItem = Required<MenuProps>['items'][number];
 
 const TopHeader: FC = () => {
   const avatar = <CustomIcon type="user" />;
@@ -27,18 +29,33 @@ const TopHeader: FC = () => {
     }
   }, []);
 
+  function getItem(
+    label: React.ReactNode,
+    key: React.Key,
+    icon?: React.ReactNode,
+    children?: MenuItem[],
+    type?: 'group',
+  ): MenuItem {
+    return {
+      key,
+      icon,
+      children,
+      label,
+      type,
+    } as MenuItem;
+  }
+
+  const items: MenuItem[] = [
+    getItem('退出登录', 'logout', <LogoutOutlined />)
+  ];
+
   const menuHeaderDropdown = (
-    <Menu className={'menu'} selectedKeys={[]} onClick={onMenuClick}>
-      <Menu.Item key="logout">
-        <LogoutOutlined />
-        退出登录
-      </Menu.Item>
-    </Menu>
+    <Menu className={'menu'} onClick={onMenuClick} items={items}></Menu>
   );
 
   return (
     <StyleHeader>
-      <Logo path="/bagset" title="TRUNK" subTitle=" 主线科技" />
+      <Logo path="/bagset" title="数据管理平台（DMP）" subTitle="" />
       {loading ? <Loading /> : ''}
       <Dropdown overlay={menuHeaderDropdown}>
         <User>

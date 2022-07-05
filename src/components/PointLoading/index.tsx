@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { FullFlexCenter, LoadingModal } from '@/styled/Basic';
+import { LoadingModal, PointLoadingCss } from '@/styled/Basic';
 import { Spin } from 'antd';
 
 type Size = 'small' | 'large' | 'default' | undefined;
@@ -11,14 +11,14 @@ interface Props {
   modalStyle?: {};
 }
 
-const Loading: FC<Props> = (props: Props) => {
+const PointLoading: FC<Props> = (props: Props) => {
   const { size, tip, style, modalStyle } = props;
   return (
-    <FullFlexCenter style={style}>
+    <PointLoadingCss style={style}>
       <LoadingModal style={modalStyle}></LoadingModal>
-      <Spin tip={tip} size={size || 'large'} />
-    </FullFlexCenter>
+      <Spin tip={tip || '加载中...'} size={size || 'large'} />
+    </PointLoadingCss>
   );
 };
 
-export default Loading;
+export default PointLoading;

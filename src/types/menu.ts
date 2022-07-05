@@ -3,6 +3,7 @@ import { IconTypes } from '@/types';
 
 export interface MenuItem extends RouteObject {
   label?: string;
+  path?: string;
   /** 图标名称
    *
    * 子子菜单不需要图标
@@ -12,6 +13,7 @@ export interface MenuItem extends RouteObject {
   meta?: {
     hideMenu?: boolean;
     hideChildrenInMenu?: boolean;
+    hasSearch?: boolean;
     label: string;
     icon?: IconTypes;
   };

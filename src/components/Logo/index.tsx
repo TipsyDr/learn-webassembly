@@ -1,6 +1,5 @@
 import { FC } from 'react';
 import { TextWrap, Bubble, Text } from './styled';
-import { useNavigate } from 'react-router-dom';
 
 interface Props {
   path?: string;
@@ -10,7 +9,6 @@ interface Props {
 
 export const Logo: FC<Props> = props => {
   const { path, title, subTitle } = props;
-  const navigate = useNavigate();
   const rnd = function (m: string, n: string) {
     const m1 = parseInt(m);
     const n1 = parseInt(n);
@@ -49,8 +47,8 @@ export const Logo: FC<Props> = props => {
         <Bubble>
           <CreateBubbles />
           <Text>
-            <span>{title}</span>
-            <span>{subTitle}</span>
+            {title&&<span>{title}</span>}
+            {subTitle&&<span>{subTitle}</span>}
           </Text>
         </Bubble>
       </TextWrap>

@@ -6,7 +6,7 @@ import {
   FC,
   useContext,
 } from 'react';
-import { useGetUserInfo } from '@/api';
+// import { useGetUserInfo } from '@/api';
 import { UserInfo } from '@/types';
 import { Loading, notice } from '@/components';
 
@@ -20,18 +20,18 @@ interface Props {
 
 export const LoginContextProvider: FC<Props> = props => {
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
-  const { isLoading, isError, data, error } = useGetUserInfo();
+  // const { isLoading, isError, data, error } = useGetUserInfo();
 
   useEffect(() => {
-    setUserInfo(data?.data!);
-  }, [data]);
-  return isLoading ? (
-    <Loading />
-  ) : (
+    setUserInfo({
+      userName: 'admin'
+    });
+  }, []);
+  return (
     <LoginContext.Provider value={{ userInfo: userInfo }}>
       {props.children}
     </LoginContext.Provider>
-  );
+  )
 };
 
 export const useLoginContext = () => {

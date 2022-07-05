@@ -1,12 +1,12 @@
 import { FC } from 'react';
-import { Menu } from 'antd';
+import { Menu, MenuProps } from 'antd';
 import { MenuList } from '@/types/menu';
 import { useNavigate } from 'react-router-dom';
 import CustomIcon from '@/components/Icon';
 
 const { SubMenu, Item } = Menu;
 
-interface MenuProps {
+interface MenusProps extends MenuProps {
   menuList: MenuList;
   openKey?: string;
   onChangeOpenKey: (key?: string) => void;
@@ -14,7 +14,9 @@ interface MenuProps {
   onChangeSelectedKey: (key: string) => void;
 }
 
-const MenuComponent: FC<MenuProps> = props => {
+type MenuItem = Required<MenusProps>['items'][number];
+
+const MenuComponent: FC<MenusProps> = props => {
   const {
     menuList,
     openKey,
@@ -23,15 +25,6 @@ const MenuComponent: FC<MenuProps> = props => {
     onChangeSelectedKey,
   } = props;
   const navigate = useNavigate();
-
-  const getTitie = (menu: MenuList[0]) => {
-    return (
-      <span style={{ display: 'flex', alignItems: 'center' }}>
-        <CustomIcon type={menu.meta?.icon!} color="#fff" />
-        <span>{menu.meta?.label}</span>
-      </span>
-    );
-  };
 
   const onMenuClick = (path: string) => {
     onChangeSelectedKey(path);
@@ -43,28 +36,47 @@ const MenuComponent: FC<MenuProps> = props => {
     onChangeOpenKey(key);
   };
 
-  const getMenuItem = (menuList: MenuList, pubPath: string | undefined) => {
+  function getItem(
+    label: React.ReactNode,
+    key: React.Key | undefined,
+    icon?: React.ReactNode,
+    children?: MenuItem[],
+    type?: 'group',
+  ): MenuItem {
+    return {
+      key,
+      icon,
+      children,
+      label,
+      type,
+    } as MenuItem;
+  }
+
+  const getItems = (menuList: MenuList, pubPath: string)=> {
     return menuList.map(menu => {
-      if (menu.children && !menu.meta?.hideChildrenInMenu) {
-        return (
-          <SubMenu
-            key={pubPath + '/' + menu.path?.replace(/\/\:.*$/, '')}
-            title={getTitie(menu)}
-          >
-            {getMenuItem(menu.children, menu.path)}
-          </SubMenu>
-        );
-      } else if (menu.meta?.hideMenu) {
-        return null;
-      } else {
-        return (
-          <Item key={pubPath + '/' + menu.path?.replace(/\/\:.*$/, '')}>
-            {getTitie(menu)}
-          </Item>
-        );
-      }
+      const label = menu?.meta?.label;
+      const icon = menu?.meta?.icon;
+      const hideChildrenInMenu = menu?.meta?.hideChildrenInMenu;
+      const hideMenu = menu.meta?.hideMenu;
+      const key = pubPath + '/' + menu.path?.replace(/\/\:.*$/, '');
+      const children: any =
+        menu?.children?.length && !hideChildrenInMenu
+          ? getItems(menu?.children, menu?.path || '')
+          : null;
+      const item =
+        menu?.path && !hideMenu
+          ? getItem(
+              label,
+              key,
+              <CustomIcon type={icon} color="#fff" />,
+              children,
+            )
+          : null;
+      return item;
     });
   };
+
+  const items = getItems(menuList, '');
 
   return (
     <Menu
@@ -75,9 +87,8 @@ const MenuComponent: FC<MenuProps> = props => {
       onOpenChange={onOpenChange}
       onSelect={k => onMenuClick(k.key)}
       className="layout-page-sider-menu text-2"
-    >
-      {getMenuItem(menuList, '')}
-    </Menu>
+      items={items}
+    />
   );
 };
 

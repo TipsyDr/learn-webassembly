@@ -24,31 +24,34 @@ const initialValues: LoginParams = {
 };
 
 const LoginPage: FC = () => {
-  const loginMutation = useLogin();
+  // const loginMutation = useLogin();
   const location = useLocation() as { state: { from: string } };
 
   const onFinish = async (values: any) => {
-    const result: LoginResult = await loginMutation.mutateAsync(values);
-    const { data } = result;
-    if (+result.code === 100000) {
-      localStorage.setItem('username', values.userName);
-      notice({
-        type: 'success',
-        mes: '登录',
-        desc: '登录成功',
-      });
-      if (data.token) {
-        localStorage.setItem('token', data.token);
+    // const result: LoginResult = await loginMutation.mutateAsync(values);
+    // const { data } = result;
+    // if (+result.code === 100000) {
+    //   localStorage.setItem('username', values.userName);
+    //   notice({
+    //     type: 'success',
+    //     mes: '登录',
+    //     desc: '登录成功',
+    //   });
+    //   if (data.token) {
+    //     localStorage.setItem('token', data.token);
 
-        const from = location.state?.from || '/bagset';
-        window.location.href = from;
-      }
-    } else {
-      notice({
-        type: 'error',
-        mes: result.message,
-      });
-    }
+    //     const from = location.state?.from || '/bagset';
+    //     window.location.href = from;
+    //   }
+    // } else {
+    //   notice({
+    //     type: 'error',
+    //     mes: result.message,
+    //   });
+    // }
+    localStorage.setItem('token', 'login');
+    const from = location.state?.from || '/';
+    window.location.href = from;
   };
 
   const onFinishFailed = (errorInfo: any) => {

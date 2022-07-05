@@ -46,15 +46,26 @@ export const User = styled.div`
 `;
 
 export const StyleContent = styled(Content)`
-  margin-top: 64px;
-  padding: 12px;
+  position: relative;
+  margin: 12px;
+  margin-top: 76px;
   overflow-y: auto;
-  & > div {
-    padding: 16px;
-    height: 100%;
-    border-radius: 8px;
-    overflow-x: auto;
-  }
+`;
+
+export const ContentWrapper = styled.div`
+  background: #fff;
+  padding: 16px;
+  height: 100%;
+  border-radius: 8px;
+  overflow-x: auto;
+`;
+
+export const Watermark = styled.div`
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 8888;
+  pointer-events: none;
 `;
 
 export const StyleSider = styled(Sider)`
