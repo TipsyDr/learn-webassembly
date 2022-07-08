@@ -22,9 +22,7 @@ const newLineItem = [
   'with',
   'import',
 ];
-
 const afterNewLineItem = [...newLineItem];
-
 const beforeNewLineItem = ['return', ...newLineItem];
 
 module.exports = {
@@ -51,6 +49,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
     'prettier',
+    'plugin:storybook/recommended',
   ],
   plugins: ['react', 'react-hooks', 'import', '@typescript-eslint'],
   rules: {
@@ -58,9 +57,21 @@ module.exports = {
     'newline-after-var': [2, 'always'],
     'padding-line-between-statements': [
       2,
-      { blankLine: 'always', prev: '*', next: beforeNewLineItem },
-      { blankLine: 'always', prev: afterNewLineItem, next: '*' },
-      { blankLine: 'any', prev: afterNewLineItem, next: afterNewLineItem },
+      {
+        blankLine: 'always',
+        prev: '*',
+        next: beforeNewLineItem,
+      },
+      {
+        blankLine: 'always',
+        prev: afterNewLineItem,
+        next: '*',
+      },
+      {
+        blankLine: 'any',
+        prev: afterNewLineItem,
+        next: afterNewLineItem,
+      },
     ],
     '@typescript-eslint/no-use-before-define': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
@@ -75,7 +86,10 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'warn',
     '@typescript-eslint/no-unused-vars': [
       2,
-      { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+      },
     ],
   },
 };
