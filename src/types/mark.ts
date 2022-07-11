@@ -69,7 +69,6 @@ export interface CreateMarkTaskResult extends API.ApiResponse {
   data: string;
 }
 
-
 export interface ResultMarkInfo {
   annotationId: string;
   annotationName: string;

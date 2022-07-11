@@ -40,6 +40,7 @@ const PreviewImg: FC<Props> = props => {
       annotationId: data.annotationId,
       source: data.source,
     });
+
     if (+result.code === 100000) {
       if (result.data.length) {
         setImageList(result.data);
@@ -77,6 +78,7 @@ const PreviewImg: FC<Props> = props => {
       duration: 0,
       style: { width: width, height: Height, ...Style },
     });
+
     return hide;
   };
 

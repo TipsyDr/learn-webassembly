@@ -4,8 +4,6 @@ import { MenuList } from '@/types/menu';
 import { useNavigate } from 'react-router-dom';
 import CustomIcon from '@/components/Icon';
 
-const { SubMenu, Item } = Menu;
-
 interface MenusProps extends MenuProps {
   menuList: MenuList;
   openKey?: string;
@@ -33,6 +31,7 @@ const MenuComponent: FC<MenusProps> = props => {
 
   const onOpenChange = (keys: string[]) => {
     const key = keys.pop();
+
     onChangeOpenKey(key);
   };
 
@@ -52,7 +51,7 @@ const MenuComponent: FC<MenusProps> = props => {
     } as MenuItem;
   }
 
-  const getItems = (menuList: MenuList, pubPath: string)=> {
+  const getItems = (menuList: MenuList, pubPath: string) => {
     return menuList.map(menu => {
       const label = menu?.meta?.label;
       const icon = menu?.meta?.icon;
@@ -72,6 +71,7 @@ const MenuComponent: FC<MenusProps> = props => {
               children,
             )
           : null;
+
       return item;
     });
   };

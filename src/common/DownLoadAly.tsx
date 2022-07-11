@@ -8,7 +8,7 @@ interface Props {
   data: DownloadParams;
   text?: string;
   icon?: IconTypes;
-  style?: {};
+  style?: any;
   type?:
     | 'text'
     | 'link'
@@ -35,6 +35,7 @@ const download = async function (data: DownloadParams) {
     ossAddr: data.ossAddr,
     source: data.source,
   });
+
   if (+result.code === 100000) {
     notice({
       type: 'success',
@@ -51,6 +52,7 @@ const download = async function (data: DownloadParams) {
 
 const DownLoadAly: FC<Props> = props => {
   const { text, icon, type, style } = props;
+
   return (
     <BasicButton
       style={style}

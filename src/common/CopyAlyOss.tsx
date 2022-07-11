@@ -3,11 +3,12 @@ import { notice, BasicButton } from '@/components';
 import { IconTypes } from '@/types';
 import { downLoadFile } from '@/api';
 import { copyHandle } from '@/utils/helper';
+
 interface Props {
   data: DownloadParams;
   text?: string;
   icon?: IconTypes;
-  style?: {};
+  style?: any;
   type?:
     | 'text'
     | 'link'
@@ -34,6 +35,7 @@ const download = async function (data: DownloadParams) {
     ossAddr: data.ossAddr,
     source: data.source,
   });
+
   if (+result.code === 100000) {
     // navigator.clipboard.writeText(result.data);
     copyHandle(result.data);
@@ -51,6 +53,7 @@ const download = async function (data: DownloadParams) {
 
 const CopyAlyOss: FC<Props> = props => {
   const { text, icon, type, style } = props;
+
   return (
     <BasicButton
       style={style}

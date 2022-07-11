@@ -9,7 +9,7 @@ interface Props {
   fontSize?: string;
   fontWeight?: string | number;
   display?: string;
-  style?: {};
+  style?: any;
 }
 
 const Title: FC<Props> = props => {

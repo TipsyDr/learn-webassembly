@@ -6,11 +6,11 @@ interface Props {
   type?: 'input' | 'TextArea' | undefined;
   title?: string;
   defaultValue: string | undefined;
-  style?: {};
+  style?: any;
   status?: boolean;
   value?: string;
-  inputProps?: {};
-  EditBtnProps?: {};
+  inputProps?: any;
+  EditBtnProps?: any;
   onChange: (e: any) => void;
   onConfirm: () => void;
   onCancel: () => void;
@@ -60,7 +60,7 @@ const EditInput: FC<Props> = props => {
         </>
       ) : (
         <span>
-          {value?<span style={{ marginRight: '10px' }}>{value}</span>: null}
+          {value ? <span style={{ marginRight: '10px' }}>{value}</span> : null}
           <EditBtn btnProps={EditBtnProps} onClick={onClick} />
         </span>
       )}

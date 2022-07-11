@@ -18,6 +18,7 @@ export const EditTags: FC<Props> = props => {
 
   const handleClose = (removedTag: string) => {
     const tags = (updateTags || defaultTags).filter(tag => tag !== removedTag);
+
     setUpdateTags(tags);
   };
 
@@ -31,6 +32,7 @@ export const EditTags: FC<Props> = props => {
 
   const handleInputConfirm = () => {
     let tags: string[] = [];
+
     if (inputValue && (updateTags || defaultTags).indexOf(inputValue) === -1) {
       tags = [...(updateTags || defaultTags), inputValue];
       setUpdateTags(tags);
@@ -45,6 +47,7 @@ export const EditTags: FC<Props> = props => {
 
   const handleEditInputConfirm = () => {
     const newTags = [...(updateTags || defaultTags)];
+
     newTags[editInputIndex] = editInputValue;
 
     setUpdateTags(newTags);
@@ -63,24 +66,24 @@ export const EditTags: FC<Props> = props => {
   return (
     <>
       {(updateTags || defaultTags).map((tag, index) => {
-        // if (editInputIndex === index) {
-        //   return (
-        //     <Input
-        //       key={tag}
-        //       autoFocus
-        //       size="small"
-        //       style={{
-        //         width: '78px',
-        //         marginRight: '8px',
-        //         verticalAlign: 'top',
-        //       }}
-        //       value={editInputValue}
-        //       onChange={handleEditInputChange}
-        //       onBlur={handleEditInputConfirm}
-        //       onPressEnter={handleEditInputConfirm}
-        //     />
-        //   );
-        // }
+        if (editInputIndex === index) {
+          return (
+            <Input
+              key={tag}
+              autoFocus
+              size="small"
+              style={{
+                width: '78px',
+                marginRight: '8px',
+                verticalAlign: 'top',
+              }}
+              value={editInputValue}
+              onChange={handleEditInputChange}
+              onBlur={handleEditInputConfirm}
+              onPressEnter={handleEditInputConfirm}
+            />
+          );
+        }
 
         const isLongTag = tag.length > 10;
 
@@ -103,6 +106,7 @@ export const EditTags: FC<Props> = props => {
             </span>
           </Tag>
         );
+
         return isLongTag ? (
           <Tooltip title={tag} key={tag}>
             {tagElem}

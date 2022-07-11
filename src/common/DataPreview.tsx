@@ -23,6 +23,7 @@ export const DataPreview: FC<Props> = props => {
       ossAddr: url,
       source: source,
     });
+
     if (+result.code === 100000) {
       notice({
         type: 'success',

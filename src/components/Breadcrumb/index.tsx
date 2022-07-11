@@ -13,22 +13,24 @@ interface RoutesItem {
 
 interface Props {
   keyRoutes?: RoutesItem[];
-  style?: {};
+  style?: any;
 }
 
-const Breadcrumb: FC<Props> = (props) => {
+const Breadcrumb: FC<Props> = props => {
   const { keyRoutes, style } = props;
 
-  const [routes, setRoutes] = useState([{
-    path: '/',
-    breadcrumbName: '首页'
-  }])
+  const [routes, setRoutes] = useState([
+    {
+      path: '/',
+      breadcrumbName: '首页',
+    },
+  ]);
 
   const location = useLocation();
-  let paths: string[] = location.pathname.split('/');
-  const [indexPath, ...currentPath] = paths;
+  const paths: string[] = location.pathname.split('/');
+  const [, ...currentPath] = paths;
 
-  const baseRoutes = baseRoute.filter((item, index) => {
+  const baseRoutes = baseRoute.filter(item => {
     return item.path === currentPath[0];
   });
 
@@ -49,6 +51,7 @@ const Breadcrumb: FC<Props> = (props) => {
         }
       });
     };
+
     addRoute(baseRoutes, '');
 
     return list;
@@ -66,33 +69,33 @@ const Breadcrumb: FC<Props> = (props) => {
         }
       });
     };
+
     addRoute(baseRoutes, '');
+
     return list;
-  }
+  };
 
   const getLocationRoutesPath = () => {
     const singleListInfo = getSinglePathList();
     const path: string[] = [];
     const index = singleListInfo.findIndex((item: string) => {
-      return item.indexOf(':')>-1
+      return item.indexOf(':') > -1;
     });
 
     let lastPath = '';
+
     currentPath.forEach((item: string) => {
       path.push(`${lastPath}/${item}`);
       lastPath = `${lastPath}/${item}`;
     });
     path.splice(index, 1);
+
     return path;
   };
 
-  const itemRender = (
-    route: any,
-    params: any,
-    routes: string | any[],
-    paths: any[],
-  ) => {
+  const itemRender = (route: any, params: any, routes: string | any[]) => {
     const last = routes.indexOf(route) === routes.length - 1;
+
     return last ? (
       <span>{route.breadcrumbName}</span>
     ) : (
@@ -104,31 +107,33 @@ const Breadcrumb: FC<Props> = (props) => {
     const locationRoutesInfo = transRoutesToList();
     const locationRoutesPath = getLocationRoutesPath();
 
-    const routes = locationRoutesInfo.filter((item: RoutesItem, i: number) => {
+    const routes = locationRoutesInfo.filter((item: RoutesItem) => {
       const isParams = item.path.indexOf(':');
+
       if (isParams !== -1) {
         const splitPath = item.path.split('/');
-        const index = splitPath.findIndex((it) => {
-          return it.indexOf(':') > -1
+        const index = splitPath.findIndex(it => {
+          return it.indexOf(':') > -1;
         });
         const target = splitPath[index];
-        const targetValue = locationRoutesPath[index-2].split('/')[index];
+        const targetValue = locationRoutesPath[index - 2].split('/')[index];
+
         item.path = item.path.replace(`${target}`, targetValue);
       }
-      return (
-        locationRoutesPath.indexOf(item.path) !== -1 && item?.element
-      );
+
+      return locationRoutesPath.indexOf(item.path) !== -1 && item?.element;
     });
 
     return routes;
-  }
+  };
 
   useEffect(() => {
     const localRoutes = getLocalRoutes();
     const _route = [...routes, ...localRoutes];
+
     keyRoutes?.forEach((item: RoutesItem) => {
-      _route.splice(item.order || 1, 0, item)
-    })
+      _route.splice(item.order || 1, 0, item);
+    });
     setRoutes(_route);
   }, []);
 

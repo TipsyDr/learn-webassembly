@@ -4,8 +4,8 @@ import CustomIcon from '../Icon';
 
 interface Props {
   title?: string;
-  titleStyle?: {};
-  style?: {};
+  titleStyle?: any;
+  style?: any;
   url?: string;
 }
 

@@ -21,8 +21,8 @@ export interface itemChildOptions {
   value?: unknown;
   options?: { label: string; value: unknown }[];
   format?: string;
-  style?: {};
-  showTime?: {};
+  style?: any;
+  showTime?: any;
   onChange?: (e: any) => void;
   onPressEnter?: (e: any) => void;
   api?: (e: any) => any;

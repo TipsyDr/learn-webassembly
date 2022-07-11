@@ -12,51 +12,67 @@ const height = 720; // 画布的高度
 //设置背景颜色
 const initRender = (dom: Element) => {
   const renderer = new THREE.WebGLRenderer({ antialias: true });
+
   renderer.setSize(width, height);
   // renderer.setClearColor(0xffffff, 0.1);
   dom && dom.appendChild(renderer.domElement);
+
   return renderer;
 };
 
 const initScene = () => {
   const scene = new THREE.Scene();
+
   scene.autoUpdate = true;
+
   // addAxisHelper(scene);
   return scene;
 };
 
 const initCamera = () => {
   const camera = new THREE.PerspectiveCamera(45, width / height, 1, 2000);
+
   camera.position.set(0, 0, 880);
   camera.lookAt(new THREE.Vector3(0, 0, 0));
+
   return camera;
 };
 
 // TODO辅助线
-const addAxisHelper = (scene: any) => {
-  var axisHelper = new THREE.AxesHelper(360);
-  scene && scene.add(axisHelper);
-};
+// const addAxisHelper = (scene: any) => {
+//   const axisHelper = new THREE.AxesHelper(360);
+
+//   scene && scene.add(axisHelper);
+// };
 
 const drawLabel = (position: any, label: string, color?: string) => {
   let canvas: any = document.createElement('canvas');
+
   canvas.width = 40;
   canvas.height = 14;
-  let ctx: any = canvas.getContext('2d');
+  const ctx: any = canvas.getContext('2d');
+
   ctx.fillStyle = color || '#fe0101';
   ctx.font = 'Bold 14px 宋体';
   ctx.fillText(label, 0, 14);
-  let texture = new THREE.CanvasTexture(canvas);
+  const texture = new THREE.CanvasTexture(canvas);
 
   const material = new THREE.SpriteMaterial({ map: texture });
-  let text = new THREE.Sprite(material);
+  const text = new THREE.Sprite(material);
+
   text.position.set(position.x - 640, -position.y + 360 - 10, 0);
   text.scale.set(40, 20, 1);
   canvas = null;
+
   return text;
 };
 
-const drawBox = (position: any, dimension: any, color?: string, label?: string) => {
+const drawBox = (
+  position: any,
+  dimension: any,
+  color?: string,
+  label?: string,
+) => {
   const geometry = new THREE.PlaneGeometry(dimension.x, dimension.y);
   const edges = new THREE.EdgesGeometry(geometry);
   const edgesMaterial = new THREE.LineBasicMaterial({
@@ -70,12 +86,14 @@ const drawBox = (position: any, dimension: any, color?: string, label?: string) 
 
   if (label) {
     const text = drawLabel(position, label, color);
+
     _scene && _scene.add(text);
   }
 };
 
 const drawPoints = (data: { points: string; label: string; color: string }) => {
   const { points: _points, label, color } = data;
+
   if (!_points) {
     return;
   }
@@ -87,11 +105,13 @@ const drawPoints = (data: { points: string; label: string; color: string }) => {
   const geometry = new THREE.CircleGeometry(5, 32);
   const material = new THREE.MeshBasicMaterial({ color: color || 0xff0000 });
 
-  var points = new THREE.Mesh(geometry, material);
+  const points = new THREE.Mesh(geometry, material);
+
   points.position.set(position.x - 640, -position.y + 360, 0);
 
   if (label) {
     const text = drawLabel(position, label, color);
+
     _scene && _scene.add(text);
   }
   _scene && _scene.add(points);
@@ -114,6 +134,7 @@ const drawPolyline = (points: any, color?: string) => {
 
   const material = new THREE.LineBasicMaterial({ color: color || 0xff0000 });
   const splineObject = new THREE.Line(geometry, material);
+
   _scene && _scene.add(splineObject);
 };
 
@@ -121,32 +142,38 @@ const drawMarker = (data: any) => {
   // _scene && addAxisHelper(_scene);
   if (!data) return;
   const { location, points, box, polyline } = data;
-  points && drawPoints(points);
-  box && box.forEach((item: any) => {
-    const { xbr, xtl, ybr, ytl, color, label } = item;
-    const position = {
-      x: (+xtl+ +xbr)/2,
-      y: (+ytl+ +ybr)/2,
-    };
-    const dimension = {
-      x: Math.abs(xbr - xtl),
-      y: Math.abs(ybr - ytl),
-    };
 
-    drawBox(position, dimension, color, label);
-  });
-  polyline && polyline.forEach((item: any) => {
-    const { points, color } = item;
-    drawPolyline(points, color);
-  });
-  location && location.forEach((item: any) => {
-    const { position, dimension, color, label } = item;
-    const _position = {
-      x: position.x - dimension.x / 2,
-      y: position.y - dimension.y / 2,
-    };
-    drawBox(_position, dimension, color, label);
-  });
+  points && drawPoints(points);
+  box &&
+    box.forEach((item: any) => {
+      const { xbr, xtl, ybr, ytl, color, label } = item;
+      const position = {
+        x: (+xtl + +xbr) / 2,
+        y: (+ytl + +ybr) / 2,
+      };
+      const dimension = {
+        x: Math.abs(xbr - xtl),
+        y: Math.abs(ybr - ytl),
+      };
+
+      drawBox(position, dimension, color, label);
+    });
+  polyline &&
+    polyline.forEach((item: any) => {
+      const { points, color } = item;
+
+      drawPolyline(points, color);
+    });
+  location &&
+    location.forEach((item: any) => {
+      const { position, dimension, color, label } = item;
+      const _position = {
+        x: position.x - dimension.x / 2,
+        y: position.y - dimension.y / 2,
+      };
+
+      drawBox(_position, dimension, color, label);
+    });
   _render && _render();
 };
 
@@ -183,12 +210,14 @@ const SlideshowResult: FC<Props> = props => {
 
   const getImage2D = (path: string) => {
     const planeGeometry = new THREE.PlaneBufferGeometry(1280, 720);
+
     new THREE.TextureLoader().load(path, texture => {
       const planeMaterial = new THREE.MeshBasicMaterial({
         map: texture,
         side: THREE.DoubleSide,
       });
       const plane = new THREE.Mesh(planeGeometry, planeMaterial);
+
       plane.renderOrder = -10;
       _scene && _scene.add(plane);
       _render && _render();
@@ -196,17 +225,22 @@ const SlideshowResult: FC<Props> = props => {
     });
   };
 
-  const getImagesTask = (data: any[], type: string) => {
+  const getImagesTask = (data: any[]) => {
     const pageNumber = Math.floor((step + 1) / preloadSize);
     let _counter = preloadSize * (pageNumber + 1);
+
     data.forEach(item => {
       const res = JSON.parse(item?.picAnnotationResult);
-      if(!res) {
-        setIsEmpty(true)
+
+      if (!res) {
+        setIsEmpty(true);
       }
-      const src = res && res[currentCamera] && res[currentCamera]?.picOssAddress;
+      const src =
+        res && res[currentCamera] && res[currentCamera]?.picOssAddress;
+
       if (src) {
         const image = new Image();
+
         image.src = src;
         image.onload = function (err) {
           if (err.isTrusted) {
@@ -239,13 +273,13 @@ const SlideshowResult: FC<Props> = props => {
 
   useEffect(() => {
     if (_nextFrameList?.length) {
-      getImagesTask(_nextFrameList, 'next');
+      getImagesTask(_nextFrameList);
     }
   }, [_nextFrameList]);
 
   useEffect(() => {
     if (_frameList?.length) {
-      getImagesTask(_frameList, 'current');
+      getImagesTask(_frameList);
     }
   }, [_frameList]);
 
@@ -253,20 +287,21 @@ const SlideshowResult: FC<Props> = props => {
     const pageNumber = Math.floor(step / preloadSize) + 1;
     const imageIndex = step % preloadSize;
     const playList = pageNumber % 2 === 0 ? _nextFrameList : _frameList;
-    _scene&&_scene.clear();
+
+    _scene && _scene.clear();
     if (
       !playList ||
       !playList.length ||
       !playList[imageIndex]?.picAnnotationResult
-      ) {
-        setIsLoading(false);
-        setIsEmpty(true);
-        return;
-      }
-      else {
-        setIsLoading(true);
-        setIsEmpty(false);
-      }
+    ) {
+      setIsLoading(false);
+      setIsEmpty(true);
+
+      return;
+    } else {
+      setIsLoading(true);
+      setIsEmpty(false);
+    }
 
     const list = JSON.parse(playList[imageIndex].picAnnotationResult);
 
@@ -279,11 +314,12 @@ const SlideshowResult: FC<Props> = props => {
 
   useEffect(() => {
     init();
+
     return () => {
       slideRef.current = null;
       _render = null;
       _scene = null;
-    }
+    };
   }, []);
 
   return (

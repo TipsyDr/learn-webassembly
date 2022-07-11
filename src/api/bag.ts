@@ -1,4 +1,4 @@
-import { useGetList, useGetOne, useGet } from './request';
+import { useGetList, useGet } from './request';
 import {
   BagListParams,
   Pagination,

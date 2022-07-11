@@ -12,13 +12,15 @@ export const Logo: FC<Props> = props => {
   const rnd = function (m: string, n: string) {
     const m1 = parseInt(m);
     const n1 = parseInt(n);
+
     return Math.floor(Math.random() * (n1 - m1 + 1)) + m1;
   };
 
   const CreateBubbles = function () {
     const bubbleCount = 20;
-    let dom = [];
-    for (var i = 0; i <= bubbleCount; i++) {
+    const dom = [];
+
+    for (let i = 0; i <= bubbleCount; i++) {
       const size = rnd('2', '8');
       const top = rnd('20', '80') + '%';
       const left = rnd('0', '95') + '%';
@@ -32,8 +34,10 @@ export const Logo: FC<Props> = props => {
         height: height,
         animationDelay: animation,
       };
+
       dom.push(<span className="particle" style={style} key={i}></span>);
     }
+
     return <>{dom}</>;
   };
 
@@ -47,8 +51,8 @@ export const Logo: FC<Props> = props => {
         <Bubble>
           <CreateBubbles />
           <Text>
-            {title&&<span>{title}</span>}
-            {subTitle&&<span>{subTitle}</span>}
+            {title && <span>{title}</span>}
+            {subTitle && <span>{subTitle}</span>}
           </Text>
         </Bubble>
       </TextWrap>

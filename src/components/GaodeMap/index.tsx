@@ -25,16 +25,20 @@ const GaodeMap: FC<MapProps> = props => {
 
   const addTrace = function (data: MapPoint[][], map: any) {
     if (data.length <= 0) return;
+
     for (let i = 0; i < data.length; i++) {
       const item = data[i];
+
       if (item.length <= 0) {
         continue;
       }
       const AMap = (window as any).AMap;
       const path: unknown[] = [];
+
       item?.forEach(it => {
         if (Number.isFinite(+it.lng) && Number.isFinite(+it.lat)) {
           const point = new AMap.LngLat(it.lng, it.lat);
+
           path.push(point);
         }
       });
@@ -48,6 +52,7 @@ const GaodeMap: FC<MapProps> = props => {
         isOutline: true, // 是否描边
         outlineColor: 'blue', // 描边颜色
       });
+
       map?.addOverlay(polyLine);
     }
   };
@@ -60,7 +65,7 @@ const GaodeMap: FC<MapProps> = props => {
       direction?: string;
     },
     Icon?: any,
-    content?: any
+    content?: any,
   ) {
     if (!path || path.length <= 0) return;
     const AMap = (window as any).AMap;
@@ -71,19 +76,21 @@ const GaodeMap: FC<MapProps> = props => {
       label: label,
       anchor: 'center',
     });
+
     map.add(marker);
   };
 
   const getMapData = async function () {
     if (mapData?.path && mapData?.path.length > 0) {
       const startLine = mapData?.path[0];
+
       setStart([startLine[0].lng, startLine[0].lat]);
       setEnd([
         startLine[startLine.length - 1].lng,
         startLine[startLine.length - 1].lat,
       ]);
     }
-    mapData&&setData(mapData);
+    mapData && setData(mapData);
   };
 
   const addLine = function () {
@@ -100,7 +107,7 @@ const GaodeMap: FC<MapProps> = props => {
         EndSvg,
       );
     }
-    if(start.length) {
+    if (start.length) {
       map?.setCenter(start);
       addMarker(
         start,
@@ -116,6 +123,7 @@ const GaodeMap: FC<MapProps> = props => {
 
   const initMap = async function () {
     const _window = window as any;
+
     _window._AMapSecurityConfig = {
       securityJsCode: '5eeadfe8df0972cfdf0d028819c1801f',
     };
@@ -128,12 +136,14 @@ const GaodeMap: FC<MapProps> = props => {
         center: center,
         viewMode: '3D',
       });
+
       setMap(map);
-    }, 300)
+    }, 300);
   };
 
   useEffect(() => {
     initMap();
+
     return () => {
       map?.getLimitBounds();
     };

@@ -5,7 +5,7 @@ import { baseRoute } from '@/routes';
 
 const LeftSider: FC = () => {
   const pathLevel = location.pathname.split('/').length;
-  let defaultRoute: string = '';
+  let defaultRoute = '';
 
   if (location.pathname === '/') {
     defaultRoute = `/${baseRoute[1].path}`;
@@ -24,7 +24,12 @@ const LeftSider: FC = () => {
   };
 
   return (
-    <StyleSider breakpoint="lg" collapsible collapsed={collapsed} onCollapse={onCollapse}>
+    <StyleSider
+      breakpoint="lg"
+      collapsible
+      collapsed={collapsed}
+      onCollapse={onCollapse}
+    >
       <MenuComponent
         menuList={baseRoute}
         openKey={openKey}

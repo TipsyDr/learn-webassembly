@@ -1,10 +1,8 @@
-import { FC, useEffect, useState, useRef, MutableRefObject } from 'react';
+import { FC, useEffect, useState, useRef } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { PCDLoader } from 'three/examples/jsm/loaders/PCDLoader.js';
-import {
-  PointLoading,
-} from '@/components';
+import { PointLoading } from '@/components';
 import { ThreeWrapper } from './styled';
 import { FrameBasicData, ImageInfo } from '@/types';
 import { debounce, replaceHttpToHttps } from '@/utils';
@@ -18,38 +16,41 @@ let _loader: any = null;
 let _controls: any = null;
 let _renderer: any = null;
 let _lazyObj: any = null;
-let height: number = 0;
-let width: number = 0;
+let height = 0;
+let width = 0;
 
 //设置背景颜色
 const initRender = (dom: Element) => {
   const renderer = new THREE.WebGLRenderer({ antialias: true });
+
   renderer.setSize(width, height);
   dom && dom.appendChild(renderer.domElement);
+
   return renderer;
 };
 
 const initCamera = () => {
-  const camera = new THREE.PerspectiveCamera(
-    45,
-    width / height,
-    1,
-    10000,
-  );
+  const camera = new THREE.PerspectiveCamera(45, width / height, 1, 10000);
+
   camera.position.set(-100, 0, 100);
   camera.up.set(0, 0, 1);
+
   return camera;
 };
 
 const initScene = () => {
   const scene = new THREE.Scene();
+
   scene.autoUpdate = true;
+
   return scene;
 };
 
 const initLight = () => {
   const light = new THREE.DirectionalLight(0xffffff);
+
   light.position.set(1, 1, 1);
+
   return light;
 };
 
@@ -59,11 +60,13 @@ const initControls = (camera: any, renderer: any, render: any) => {
   // use if there is no animation loop
   controls.addEventListener('change', render);
   controls.update();
+
   return controls;
 };
 
 const initLoader = () => {
   const loader = new PCDLoader();
+
   return loader;
 };
 
@@ -77,7 +80,7 @@ interface Props {
   getCounter?: (step: number) => void;
 }
 
-const PreviewFrame: FC<Props> = (props) => {
+const PreviewFrame: FC<Props> = props => {
   const {
     preloadSize = 20,
     isOverlooking,
@@ -85,7 +88,7 @@ const PreviewFrame: FC<Props> = (props) => {
     nextFrameList: _nextFrameList,
     totalPages,
     getCounter,
-    step
+    step,
   } = props;
 
   const threeRef: any = useRef(null);
@@ -119,6 +122,7 @@ const PreviewFrame: FC<Props> = (props) => {
   const onWindowResize = () => {
     const { height: h, width: w } =
       threeRef.current && threeRef.current.getBoundingClientRect();
+
     height = h;
     width = w;
     _camera.aspect = width / height;
@@ -131,6 +135,7 @@ const PreviewFrame: FC<Props> = (props) => {
     new THREE.TextureLoader().load(url, (texture: THREE.Texture) => {
       const mat = new THREE.SpriteMaterial({ map: texture, color: 0xffffff });
       const obj = new THREE.Sprite(mat);
+
       obj.geometry.scale(10, 10, 10);
       _lazyObj = obj;
     });
@@ -162,9 +167,10 @@ const PreviewFrame: FC<Props> = (props) => {
     loadImage(emptyPng);
   };
 
-  const getPointsTask = (data: FrameBasicData[], type: string) => {
+  const getPointsTask = (data: FrameBasicData[]) => {
     const pageNumber = Math.floor((step + 1) / preloadSize);
     let _counter = preloadSize * (pageNumber + 1);
+
     data.forEach(item => {
       if (item.pcdOssAddress) {
         _loader.load(
@@ -195,17 +201,18 @@ const PreviewFrame: FC<Props> = (props) => {
     _renderer &&
       _frameList?.content &&
       _frameList?.content.length &&
-      getPointsTask(_frameList?.content, 'current');
+      getPointsTask(_frameList?.content);
   }, [_frameList]);
 
   useEffect(() => {
     const pageNumber = Math.floor((step + 1) / preloadSize);
+
     if (totalPages && +pageNumber === +totalPages) return;
 
     _renderer &&
       _nextFrameList?.content &&
       _nextFrameList?.content?.length &&
-      getPointsTask(_nextFrameList?.content, 'next');
+      getPointsTask(_nextFrameList?.content);
   }, [_nextFrameList]);
 
   useEffect(() => {
@@ -215,15 +222,15 @@ const PreviewFrame: FC<Props> = (props) => {
     const list = pageNumber % 2 === 0 ? _nextFrameList : _frameList;
 
     if (list?.content && list?.content[pointsIndex] && _render) {
-      getPoints(list?.content[pointsIndex]?.pcdOssAddress!);
+      getPoints(list.content[pointsIndex].pcdOssAddress as string);
     } else {
       setLoading(true);
     }
   }, [step, _frameList, _nextFrameList]);
 
   useEffect(() => {
-    if(_camera && _controls) {
-      if (isOverlooking ) {
+    if (_camera && _controls) {
+      if (isOverlooking) {
         _camera.position.set(-100, 0, 100);
         _controls.update();
       } else {
@@ -237,6 +244,7 @@ const PreviewFrame: FC<Props> = (props) => {
     Promise.resolve().then(() => {
       const { height: h, width: w } =
         threeRef.current && threeRef.current.getBoundingClientRect();
+
       height = h;
       width = w;
       init();

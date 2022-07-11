@@ -9,17 +9,17 @@ const SEPARATION = 80,
 let particles: any,
   count = 0;
 
-let mouseX = 0,
-  mouseY = 0;
-let windowHalfX = window.innerWidth / 2;
-let windowHalfY = window.innerHeight / 2;
+// let mouseX = 0,
+// mouseY = 0;
+// let windowHalfX = window.innerWidth / 2;
+// let windowHalfY = window.innerHeight / 2;
 let renderer: any;
 let scene: any;
 let camera: any;
 
 function onWindowResize() {
-  windowHalfX = window.innerWidth / 2;
-  windowHalfY = window.innerHeight / 2;
+  // windowHalfX = window.innerWidth / 2;
+  // windowHalfY = window.innerHeight / 2;
 
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
@@ -27,14 +27,12 @@ function onWindowResize() {
   renderer.setSize(window.innerWidth, window.innerHeight / 2);
 }
 
-//
+// function onPointerMove(event: any) {
+//   if (event.isPrimary === false) return;
 
-function onPointerMove(event: any) {
-  if (event.isPrimary === false) return;
-
-  mouseX = event.clientX - windowHalfX;
-  mouseY = event.clientY - windowHalfY;
-}
+//   mouseX = event.clientX - windowHalfX;
+//   mouseY = event.clientY - windowHalfY;
+// }
 
 function render() {
   // camera.position.x += (mouseX - camera.position.x) * 0.05;
@@ -48,6 +46,7 @@ function render() {
 
   let i = 0,
     j = 0;
+
   for (let ix = 0; ix < AMOUNTX; ix++) {
     for (let iy = 0; iy < AMOUNTY; iy++) {
       positions[i + 1] =
@@ -100,7 +99,9 @@ const init = () => {
       j++;
     }
   }
+
   const geometry = new THREE.BufferGeometry();
+
   geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
   geometry.setAttribute('scale', new THREE.BufferAttribute(scales, 1));
 
@@ -111,6 +112,7 @@ const init = () => {
     sizeAttenuation: true,
     map: sprite,
   });
+
   particles = new THREE.Points(geometry, material);
   scene.add(particles);
 

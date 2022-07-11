@@ -8,7 +8,7 @@ import {
 } from 'react';
 // import { useGetUserInfo } from '@/api';
 import { UserInfo } from '@/types';
-import { Loading, notice } from '@/components';
+// import { Loading, notice } from '@/components';
 
 const LoginContext = createContext<{ userInfo: UserInfo | null }>({
   userInfo: null,
@@ -24,14 +24,15 @@ export const LoginContextProvider: FC<Props> = props => {
 
   useEffect(() => {
     setUserInfo({
-      userName: 'admin'
+      userName: 'admin',
     });
   }, []);
+
   return (
     <LoginContext.Provider value={{ userInfo: userInfo }}>
       {props.children}
     </LoginContext.Provider>
-  )
+  );
 };
 
 export const useLoginContext = () => {

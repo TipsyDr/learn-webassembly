@@ -2,7 +2,7 @@ import { FC, useState, useRef, useEffect } from 'react';
 import { Image as AntdImage } from 'antd';
 import { ImageWrapper, Controller, ImageWay } from './styled';
 import emptyPng from '@/assets/images/empty.png';
-import  Loading  from '@/components/PageLoading';
+import Loading from '@/components/PageLoading';
 import { FrameBasicData, ImageInfo } from '@/types';
 
 interface Props {
@@ -18,7 +18,7 @@ interface Props {
   getCounter?: (step: number) => void;
 }
 
-const Slideshow: FC<Props> = (props) => {
+const Slideshow: FC<Props> = props => {
   const {
     preloadSize = 20,
     step = 0,
@@ -36,13 +36,16 @@ const Slideshow: FC<Props> = (props) => {
   const [currentImage, setCurrentImage] = useState<string>();
   const [counter, setCounter] = useState<number>(0);
 
-  const getImagesTask = (data: FrameBasicData[], type: string) => {
+  const getImagesTask = (data: FrameBasicData[]) => {
     const pageNumber = Math.floor((step + 1) / preloadSize);
     let _counter = preloadSize * (pageNumber + 1);
+
     data.forEach(item => {
       const src = item?.picOssAddress && item?.picOssAddress[currentCamera];
+
       if (src) {
         const image = new Image();
+
         image.src = src;
         image.onload = function (err) {
           if (err.isTrusted) {
@@ -61,13 +64,13 @@ const Slideshow: FC<Props> = (props) => {
 
   useEffect(() => {
     if (_frameList?.content?.length) {
-      getImagesTask(_frameList?.content, 'current');
+      getImagesTask(_frameList?.content);
     }
   }, [_frameList]);
 
   useEffect(() => {
     if (_nextFrameList?.content?.length) {
-      getImagesTask(_nextFrameList?.content, 'next');
+      getImagesTask(_nextFrameList?.content);
     }
   }, [_nextFrameList]);
 
@@ -76,6 +79,7 @@ const Slideshow: FC<Props> = (props) => {
     const imageIndex = step % preloadSize;
     const playList =
       pageNumber % 2 === 0 ? _nextFrameList?.content : _frameList?.content;
+
     if (
       !playList ||
       !playList.length ||
@@ -84,6 +88,7 @@ const Slideshow: FC<Props> = (props) => {
       return;
     }
     const list = playList[imageIndex]?.picOssAddress || [];
+
     setCurrentImage(list[currentCamera]);
   }, [step, currentCamera, _frameList, _nextFrameList]);
 

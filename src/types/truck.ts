@@ -1,13 +1,3 @@
-interface Trunk {
-  index: string;
-  vinId: string;
-  vehicleId: string;
-  color?: string;
-  date?: string;
-  options?: string;
-  truckType?: string;
-}
-
 export interface TruckInfo {
   // 车牌号
   vehicleLicense: string;

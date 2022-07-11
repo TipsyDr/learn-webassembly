@@ -27,6 +27,7 @@ import type {
 } from 'antd/lib';
 import type { FormLayoutProps, BtnProps } from './type';
 import { useEffect } from 'react';
+
 const DatePickerNode: any = DatePicker;
 
 const formItemDefaultOptions: any = {
@@ -68,13 +69,16 @@ const formItemEnum: any = {
 
 function FormLayout(props: FormLayoutProps) {
   const { formItems, formOptions, hasCard, onSubmit } = props;
+
   if (!formItems) return null;
 
   const FormItemGroup = formItems.map(item => {
     const { type, itemChildOptions, formItemOptions } = item;
+
     if (type === 'custom') {
       return item.element;
     }
+
     return (
       <FormItem key={formItemOptions?.name} {...formItemOptions}>
         {formItemEnum[type](itemChildOptions)}
@@ -83,9 +87,11 @@ function FormLayout(props: FormLayoutProps) {
   });
 
   const [form] = Form.useForm();
-  const onFinish = onSubmit ? onSubmit : (values: any) => {
-    console.log('Success:', values);
-  };
+  const onFinish = onSubmit
+    ? onSubmit
+    : (values: any) => {
+        console.log('Success:', values);
+      };
   const onFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
   };
@@ -97,6 +103,7 @@ function FormLayout(props: FormLayoutProps) {
   const { btnoptions, btnstyle } = formOptions!;
   const btnTemp = btnoptions?.map((btn: BtnProps, index: number) => {
     let dom = <BasicButton />;
+
     switch (btn.kind) {
       case 'submit':
         dom = (
@@ -108,6 +115,7 @@ function FormLayout(props: FormLayoutProps) {
             key={index}
           />
         );
+
         break;
       case 'reset':
         dom = (
@@ -119,6 +127,7 @@ function FormLayout(props: FormLayoutProps) {
             key={index}
           />
         );
+
         break;
       case 'resetSubmit':
         dom = (
@@ -130,13 +139,16 @@ function FormLayout(props: FormLayoutProps) {
             key={index}
           />
         );
+
         break;
       case 'button':
         dom = (
           <BasicButton type="primary" htmlType="button" {...btn} key={index} />
         );
+
         break;
     }
+
     return dom;
   });
 

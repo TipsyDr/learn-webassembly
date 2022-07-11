@@ -14,6 +14,7 @@ const TopHeader: FC = () => {
   const { userInfo } = useLoginContext();
   const onMenuClick = useCallback(event => {
     const { key } = event;
+
     if (key === 'logout') {
       notice({
         type: 'success',
@@ -25,6 +26,7 @@ const TopHeader: FC = () => {
         localStorage.removeItem('token');
         window.location.href = '/login';
       }, 1000);
+
       return;
     }
   }, []);
@@ -45,9 +47,7 @@ const TopHeader: FC = () => {
     } as MenuItem;
   }
 
-  const items: MenuItem[] = [
-    getItem('退出登录', 'logout', <LogoutOutlined />)
-  ];
+  const items: MenuItem[] = [getItem('退出登录', 'logout', <LogoutOutlined />)];
 
   const menuHeaderDropdown = (
     <Menu className={'menu'} onClick={onMenuClick} items={items}></Menu>

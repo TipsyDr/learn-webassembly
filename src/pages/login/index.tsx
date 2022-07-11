@@ -13,9 +13,9 @@ import {
   StyleButton,
 } from '@/pages/login/styled';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { LoginParams, LoginResult } from '@/types';
+import { LoginParams } from '@/types';
 import { notice } from '@/components';
-import { useLogin } from '@/api';
+// import { useLogin } from '@/api';
 
 const username = localStorage.getItem('username') || '';
 const initialValues: LoginParams = {
@@ -27,7 +27,7 @@ const LoginPage: FC = () => {
   // const loginMutation = useLogin();
   const location = useLocation() as { state: { from: string } };
 
-  const onFinish = async (values: any) => {
+  const onFinish = async () => {
     // const result: LoginResult = await loginMutation.mutateAsync(values);
     // const { data } = result;
     // if (+result.code === 100000) {
@@ -51,6 +51,7 @@ const LoginPage: FC = () => {
     // }
     localStorage.setItem('token', 'login');
     const from = location.state?.from || '/';
+
     window.location.href = from;
   };
 
@@ -61,6 +62,7 @@ const LoginPage: FC = () => {
       desc: errorInfo,
     });
   };
+
   return (
     <Container>
       <Wave />

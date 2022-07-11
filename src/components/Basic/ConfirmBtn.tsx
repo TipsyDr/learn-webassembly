@@ -6,7 +6,7 @@ import { IconTypes } from '@/types';
 interface Props {
   title?: string;
   icon?: IconTypes;
-  style?: {};
+  style?: any;
   onClick?: () => void;
 }
 

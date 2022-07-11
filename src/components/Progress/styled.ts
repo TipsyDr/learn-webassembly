@@ -22,7 +22,7 @@ export const ProgressBar = styled.div`
   margin: 10px 0;
   width: 100%;
   height: 10px;
-  opacity: .7;
+  opacity: 0.7;
   cursor: pointer;
 `;
 

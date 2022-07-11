@@ -7,12 +7,13 @@ type Size = 'small' | 'large' | 'default' | undefined;
 interface Props {
   size?: Size;
   tip?: string;
-  style?: {};
-  modalStyle?: {};
+  style?: any;
+  modalStyle?: any;
 }
 
 const PointLoading: FC<Props> = (props: Props) => {
   const { size, tip, style, modalStyle } = props;
+
   return (
     <PointLoadingCss style={style}>
       <LoadingModal style={modalStyle}></LoadingModal>

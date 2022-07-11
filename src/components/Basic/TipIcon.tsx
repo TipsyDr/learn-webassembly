@@ -11,6 +11,7 @@ interface Props {
 
 const TipIcon: FC<Props> = props => {
   const { type, tipProps, onClick } = props;
+
   return (
     <Tooltip title={''} {...tipProps}>
       <span style={{ cursor: 'pointer' }} onClick={onClick}>

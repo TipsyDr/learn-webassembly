@@ -15,16 +15,18 @@ let _loader: any = null;
 let _controls: any = null;
 let _renderer: any = null;
 let _lazyObj: any = null;
-let height: number = 0;
-let width: number = 0;
+let height = 0;
+let width = 0;
 
 //设置背景颜色
-  const initRender = (dom: Element) => {
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(width, height);
-    dom && dom.appendChild(renderer.domElement);
-    return renderer;
-  };
+const initRender = (dom: Element) => {
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+
+  renderer.setSize(width, height);
+  dom && dom.appendChild(renderer.domElement);
+
+  return renderer;
+};
 
 const initControls = (camera: any, renderer: any, render: any) => {
   const controls = new TrackballControls(camera, renderer.domElement);
@@ -32,38 +34,47 @@ const initControls = (camera: any, renderer: any, render: any) => {
   // use if there is no animation loop
   controls.addEventListener('change', render);
   controls.update();
+
   return controls;
 };
 
 const initLoader = () => {
   const loader = new PCDLoader();
+
   return loader;
 };
 
 const initScene = () => {
   const scene = new THREE.Scene();
+
   scene.autoUpdate = true;
   addAxisHelper(scene);
+
   return scene;
 };
 
 const initLight = () => {
   const light = new THREE.DirectionalLight(0xffffff);
+
   light.position.set(1, 1, 1);
+
   return light;
 };
 
 const initCamera = () => {
   const camera = new THREE.PerspectiveCamera(45, width / height, 1, 10000);
+
   camera.position.set(-100, 0, 100);
   camera.up.set(0, 0, 1);
   camera.lookAt(200);
+
   return camera;
 };
 
 // TODO辅助线
 const addAxisHelper = (scene: any) => {
-  var axisHelper = new THREE.AxesHelper(50);
+  const axisHelper = new THREE.AxesHelper(50);
+
   scene.add(axisHelper);
 };
 
@@ -72,11 +83,11 @@ const animate = () => {
   _controls && _controls.update();
   _render && _render();
   requestAnimationFrame(animate);
-}
+};
 
 const drawBox = (data: any) => {
   _scene && addAxisHelper(_scene);
-  if (!data||data.length <= 0) {
+  if (!data || data.length <= 0) {
     return;
   }
   data.forEach((item: any) => {
@@ -87,39 +98,38 @@ const drawBox = (data: any) => {
     );
 
     const mesh = new THREE.Mesh(geometry);
+
     item?.rotation &&
-      mesh.rotation.set(
-        item.rotation?.x,
-        item.rotation?.y,
-        item.rotation?.z,
-      );
-    item?.position && mesh.position.set(
-      item.position?.x,
-      item.position?.y,
-      item.position?.z,
-    );
+      mesh.rotation.set(item.rotation?.x, item.rotation?.y, item.rotation?.z);
+    item?.position &&
+      mesh.position.set(item.position?.x, item.position?.y, item.position?.z);
     const box = new THREE.BoxHelper(mesh, 0x00ff00);
+
     _scene.add(box);
     if (item?.category && item?.position) {
       const label = drawLabel(item?.position, item?.category, item?.scale);
+
       _scene.add(label);
     }
   });
 };
 
 const drawLabel = (position: any, label: string, color?: string) => {
-  let canvas = document.createElement('canvas');
+  const canvas = document.createElement('canvas');
+
   canvas.width = 40;
   canvas.height = 14;
-  let ctx: any = canvas.getContext('2d');
+  const ctx: any = canvas.getContext('2d');
+
   ctx.fillStyle = color || '#fe0101';
   ctx.font = 'Bold 14px 宋体';
   ctx.fillText(label, 0, 14);
   document.body.appendChild(canvas);
-  let texture = new THREE.CanvasTexture(canvas);
+  const texture = new THREE.CanvasTexture(canvas);
 
   const material = new THREE.SpriteMaterial({ map: texture });
-  let text = new THREE.Sprite(material);
+  const text = new THREE.Sprite(material);
+
   text.position.set(position.x, position.y, position.z);
   text.scale.set(0.2, 0.2, 0.2);
 
@@ -202,6 +212,7 @@ const PreviewFrameResult: FC<Props> = props => {
   const onWindowResize = () => {
     const { height: h, width: w } =
       threeRef.current && threeRef.current.getBoundingClientRect();
+
     height = h;
     width = w;
     _camera.aspect = width / height;
@@ -236,11 +247,13 @@ const PreviewFrameResult: FC<Props> = props => {
     render();
   };
 
-  const getPointsTask = (data: any, type: string) => {
+  const getPointsTask = (data: any) => {
     const pageNumber = Math.floor((step + 1) / preloadSize);
     let _counter = preloadSize * (pageNumber + 1);
+
     data.forEach((item: any) => {
       const res = JSON.parse(item?.pcdAnnotationResult);
+
       if (!res) {
         setIsEmpty(true);
       }
@@ -270,20 +283,18 @@ const PreviewFrameResult: FC<Props> = props => {
   }, [counter]);
 
   useEffect(() => {
-    _renderer &&
-      _frameList &&
-      _frameList.length &&
-      getPointsTask(_frameList, 'current');
+    _renderer && _frameList && _frameList.length && getPointsTask(_frameList);
   }, [_frameList]);
 
   useEffect(() => {
     const pageNumber = Math.floor((step + 1) / preloadSize);
+
     if (totalPages && +pageNumber === +totalPages) return;
 
     _renderer &&
       _nextFrameList &&
       _nextFrameList.length &&
-      getPointsTask(_nextFrameList, 'next');
+      getPointsTask(_nextFrameList);
   }, [_nextFrameList]);
 
   useEffect(() => {
@@ -291,6 +302,7 @@ const PreviewFrameResult: FC<Props> = props => {
     const pointsIndex = step % preloadSize;
 
     const playList = pageNumber % 2 === 0 ? _nextFrameList : _frameList;
+
     if (
       !playList ||
       !playList.length ||
@@ -298,11 +310,11 @@ const PreviewFrameResult: FC<Props> = props => {
     ) {
       setLoading(false);
       setIsEmpty(true);
-    }
-    else {
+    } else {
       setIsEmpty(false);
       setLoading(true);
       const list = JSON.parse(playList[pointsIndex].pcdAnnotationResult);
+
       if (_render) {
         _scene.clear();
         getPoints(list.pcdOssAddress);
@@ -327,10 +339,12 @@ const PreviewFrameResult: FC<Props> = props => {
     Promise.resolve().then(() => {
       const { height: h, width: w } =
         threeRef.current && threeRef.current.getBoundingClientRect();
+
       height = h;
       width = w;
       init();
     });
+
     return () => {
       _scene = null;
       _render = null;
@@ -341,7 +355,7 @@ const PreviewFrameResult: FC<Props> = props => {
       _renderer = null;
       _lazyObj = null;
       threeRef.current = null;
-    }
+    };
   }, []);
 
   return (

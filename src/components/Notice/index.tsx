@@ -7,6 +7,7 @@ interface Conf {
   mes?: ReactNode;
   desc?: ReactNode;
 }
+
 export const notice = (conf: Conf) => {
   const { type, mes, desc } = conf;
 

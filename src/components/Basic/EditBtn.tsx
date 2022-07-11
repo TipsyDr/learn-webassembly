@@ -5,8 +5,8 @@ import { IconTypes } from '@/types';
 interface Props {
   title?: string;
   icon?: IconTypes;
-  btnProps?: {};
-  style?: {};
+  btnProps?: any;
+  style?: any;
   onClick?: () => void;
 }
 
@@ -18,7 +18,7 @@ const EditBtn: FC<Props> = props => {
       type="primary"
       style={style}
       onClick={onClick}
-      size='small'
+      size="small"
       cicon={icon || 'edit'}
       icolor="#fff"
       text={title || '编辑'}

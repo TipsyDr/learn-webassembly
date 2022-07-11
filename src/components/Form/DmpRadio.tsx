@@ -22,17 +22,22 @@ export const DmpRadio: FC<DmpRadioProps> = props => {
     data: [],
     error: {},
     isLoading: false,
-    refetch: () => {},
+    refetch: () => {
+      console.log('refetch');
+    },
   };
+
   if (api) {
     apiData = api();
   }
-  const { data, error, isLoading, refetch } = apiData;
+  const { data } = apiData;
 
   useEffect(() => {
     let options: SelectOption[] = [];
+
     if (map) {
       const { code, name } = map;
+
       if (Array.isArray(code)) {
         options =
           data?.data?.length &&
@@ -64,5 +69,6 @@ export const DmpRadio: FC<DmpRadioProps> = props => {
     }
     setOptions(options);
   }, []);
+
   return <Radio.Group options={options} {...others} />;
 };

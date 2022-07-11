@@ -1,4 +1,4 @@
-import { CaseInfo, UpdateCaseInfoParams } from '@/types';
+import { CaseInfo } from '@/types';
 import { useGetList, usePut, useCreate, useGet } from './request';
 
 export const useGetCaseList = (

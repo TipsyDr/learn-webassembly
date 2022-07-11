@@ -20,9 +20,11 @@ export class PromiseQueue {
   add(task: any) {
     this.pendingList.push(task);
     this.run();
-    return new Promise((resolve, reject) => {
 
-    })
+    return new Promise((resolve, reject) => {
+      resolve(true);
+      reject(false);
+    });
   }
 
   run() {
@@ -33,6 +35,7 @@ export class PromiseQueue {
       .sort((a, b) => b.priority - a.priority)
       .shift();
     const promise = fn();
+
     promise
       .then(this.completeOne.bind(this))
       .catch(this.completeOne.bind(this));

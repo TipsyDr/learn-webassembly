@@ -19,18 +19,20 @@ export interface ImageInfo {
   pageSize: number;
   totalElements: number;
   totalPages: number;
-};
+}
+
 interface BaseDataItem {
   smallestUnitTimestamp: string;
   status: string;
 }
+
 export interface ChooseFrameBasicDataResult extends API.ApiResponse {
   data: BaseDataItem[];
 }
 
 export interface AnnotationResult {
   pic: any[];
-  pcd: any[]
+  pcd: any[];
 }
 export interface AnnotationResultInfo {
   content: AnnotationResult[];
@@ -44,8 +46,8 @@ export interface GetChooseFrameListParams {
   gId?: string;
   type?: '0' | '1';
   chooseFrameId?: string;
-  startTime?:string;
-  endTime?:string;
+  startTime?: string;
+  endTime?: string;
   pageNumber?: number;
   pageSize?: number;
 }
@@ -63,7 +65,7 @@ export interface GetAnnotationResultListParams {
   pageSize?: number;
 }
 export interface GetAnnotationResultListResult extends API.ApiResponse {
-  data: any
+  data: any;
 }
 
 export interface SaveFrameStatusParams {

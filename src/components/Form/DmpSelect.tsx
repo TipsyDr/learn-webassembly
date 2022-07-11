@@ -22,17 +22,22 @@ export const DmpSelect: FC<DmpSelectProps> = props => {
     data: [],
     error: {},
     isLoading: false,
-    refetch: () => {},
+    refetch: () => {
+      console.error('error');
+    },
   };
+
   if (api) {
     apiData = api();
   }
-  const { data, error, isLoading, refetch } = apiData;
+  const { data, isLoading } = apiData;
 
   useEffect(() => {
     let options: SelectOption[] = [];
+
     if (map) {
       const { code, name } = map;
+
       if (Array.isArray(code)) {
         options =
           data?.data?.length &&
@@ -64,5 +69,6 @@ export const DmpSelect: FC<DmpSelectProps> = props => {
     }
     setOptions(options);
   }, []);
+
   return <Select loading={isLoading} options={options} {...others} />;
 };

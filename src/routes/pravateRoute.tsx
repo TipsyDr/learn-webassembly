@@ -18,7 +18,12 @@ const PrivateRoute: FC<RouteProps> = props => {
       extra={
         <Button
           type="primary"
-          onClick={() => navigate(`/login${'?from=' + encodeURIComponent(location.pathname)}`, { replace: true })}
+          onClick={() =>
+            navigate(
+              `/login${'?from=' + encodeURIComponent(location.pathname)}`,
+              { replace: true },
+            )
+          }
         >
           去登录
         </Button>
